@@ -13,10 +13,18 @@ import java.util.HashMap;
  */
 public class MemberList implements List<Member> {
 
-    // HashMap to store members
+    private static MemberList memberList;
+    
+    public static MemberList getInstance(){
+        if(memberList==null){
+            memberList = new MemberList();
+        }
+        return memberList;
+    }
+    
     private HashMap<String, Member> members;
 
-    public MemberList() {
+    private MemberList() {
         members = new HashMap<>();
     }
 

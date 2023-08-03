@@ -7,11 +7,11 @@ import View.View;
 
 public class MemberControler implements Controler<Member> {
     private MemberList list; 
-    private View<Member> view; 
+    private View view; 
 
    
-    public MemberControler(View<Member> view) {
-        this.list = new MemberList(); 
+    public MemberControler(View view) {
+        list=MemberList.getInstance();
         this.view = view; 
     }
 
@@ -19,10 +19,9 @@ public class MemberControler implements Controler<Member> {
     public void insert(Member member) {
         if (member.isComplete()) {
             list.insert(member);
-            view.displayMessaje("Miembro agregado exitosamente.");
-            readAll();
+            this.readAll();
         } else {
-            view.displayErrorMessaje("No se puede agregar el miembro. Faltan datos.");
+            view.displayErrorMessaje("Faltan datos, No se pudo agregar el miembro.");
         }
     }
 
@@ -30,8 +29,7 @@ public class MemberControler implements Controler<Member> {
     public void update(Member member) {
         if (member.isComplete()) {
             list.update(member);
-            view.displayMessaje("Miembro actualizado exitosamente.");
-            readAll();
+            this.readAll();
         } else {
             view.displayErrorMessaje("No se puede actualizar el miembro. Faltan datos.");
         }
@@ -40,8 +38,7 @@ public class MemberControler implements Controler<Member> {
     @Override
     public void delete(Member member) {
         if (list.delete(member)) {
-            view.displayMessaje("Miembro eliminado exitosamente.");
-            readAll();
+            this.readAll();
         } else {
             view.displayErrorMessaje("No se puede eliminar el miembro. No se encontró en la lista.");
         }
