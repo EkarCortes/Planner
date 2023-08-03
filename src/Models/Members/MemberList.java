@@ -57,7 +57,7 @@ public class MemberList implements List<Member> {
     
      public void showAll(){
          for (Member member : members.values()){
-             System.out.println(member);
+             System.out.println(member); 
          }
  }
 }
