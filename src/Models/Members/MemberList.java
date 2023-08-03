@@ -37,6 +37,7 @@ public class MemberList implements List<Member> {
         return false;
     }
 
+    @Override
     public boolean update(Member obj) {
         return insert(obj); 
     }
