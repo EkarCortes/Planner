@@ -4,8 +4,14 @@
  */
 package View.Members;
 
+import Controler.Controler;
+import Controler.MemberControler;
 import Models.Members.Member;
+import Models.Members.Role;
 import View.View;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -13,19 +19,19 @@ import View.View;
  * @author jprod
  */
 public class FrmMembers extends javax.swing.JInternalFrame implements View<Member> {
-    //Definir atributo de tipo controller
-    /**
-     * Creates new form FrmMembers
-     */
+    private Controler controller;
     public FrmMembers() {
         initComponents();
-        //Instanciar atributo controller;
+        controller = new MemberControler(this);
         this.loadRoles();
-        //Llamar al metodo readAll de controller;
+        this.controller.readAll();
     }
     
-    private void loadRoles(){
-        //Recorrer Enum de Role con foreach y agregar los valores a combobox
+    private void loadRoles() {
+        Role[] roles = Role.values();  // Suponiendo que tienes una enumeración llamada Role
+        for (Role role : roles) {
+            txtRole.addItem(role.toString());
+        }
     }
 
     /**
@@ -297,41 +303,63 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        
+        clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String phone = txtPhone.getText();
+        String email = txtEmail.getText();
+        Role role = Role.valueOf(txtRole.getSelectedItem().toString());
+
+        if (!id.isEmpty() && !name.isEmpty() && !phone.isEmpty() && !email.isEmpty()) {
+            Member newMember = new Member(id, name, phone, email, role);
+            controller.insert(newMember);
+            clear();
+        } else {
+            displayErrorMessaje("Todos los campos son requeridos.");
+        }
+    
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+      String searchId = JOptionPane.showInputDialog(this, "Ingrese la cédula del miembro a buscar:");
         
+        if (searchId != null && !searchId.isEmpty()) {
+            controller.read(searchId);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String searchId = JOptionPane.showInputDialog(this, "Ingrese la cédula del miembro a buscar:");
         
+        if (searchId != null && !searchId.isEmpty()) {
+            controller.read(searchId);
+        }
+    
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblMembersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMembersMouseClicked
-//        if (evt.getClickCount() == 2) { // Verificar si hubo 2 clics (doble clic)
-//            int row = this.tblMembers.getSelectedRow();
-//            Object id = tblMembers.getValueAt(row, 0);
-//            this.controler.read(id);
-//        }
+      if (evt.getClickCount() == 2) { // Verificar si hubo 2 clics (doble clic)
+           int row = this.tblMembers.getSelectedRow();
+           Object id = tblMembers.getValueAt(row, 0);
+           this.controller.read(id);
+        }
     }//GEN-LAST:event_tblMembersMouseClicked
 
     private void tblMembersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMembersKeyReleased
-//        if (evt.getKeyCode()==KeyEvent.VK_DELETE){
-//            int row = this.tblMembers.getSelectedRow();
-//            if (row>-1){
-//                Object id = tblMembers.getValueAt(row, 0);
-//                this.controler.delete(new Member(id.toString()));
-//            }
-//        }
+        if (evt.getKeyCode()==KeyEvent.VK_DELETE){
+            int row = this.tblMembers.getSelectedRow();
+            if (row>-1){
+               Object id = tblMembers.getValueAt(row, 0);
+               this.controller.delete(new Member(id.toString()));
+           }
+       }
     }//GEN-LAST:event_tblMembersKeyReleased
 
     private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_txtFiltroKeyReleased
 
 
@@ -360,39 +388,52 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
 
     @Override
     public void clear() {
-        
+        txtId.setText("");
+        txtName.setText("");
+        txtPhone.setText("");
+        txtEmail.setText("");
+        txtRole.setSelectedIndex(0);
     }
     
     @Override
     public void display(Member member) {
-        
+    if (member != null) {
+        txtId.setText(member.getId());
+        txtName.setText(member.getName());
+        txtPhone.setText(member.getPhone());
+        txtEmail.setText(member.getEmail());
+        txtRole.setSelectedItem(member.getRole().toString());
+    } else {
+        clear(); // Limpiar las cajas de texto si el miembro no se encuentra
     }
+}
+
+    
     
     @Override
     public void displayAll(Member[] regs) {
-//        DefaultTableModel tableModel=(DefaultTableModel) tblMembers.getModel();
-//        tableModel.setNumRows(0);
-//        for(Member member:regs){
-//            Object[] data=member.toArrayObject();
-//            tableModel.addRow(data);
-//        }
-//        this.tblMembers.setModel(tableModel);
+       DefaultTableModel tableModel=(DefaultTableModel) tblMembers.getModel();
+       tableModel.setNumRows(0);
+       for(Member member:regs){
+           Object[] data=member.toArrayObject();
+            tableModel.addRow(data);
+        }
+        this.tblMembers.setModel(tableModel);
     }
 
     @Override
     public void displayMessaje(String msj) {
-        
+       JOptionPane.showMessageDialog(this, msj, "Información Importante", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void displayErrorMessaje(String msj) {
-        
+        JOptionPane.showMessageDialog(this, msj, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public boolean displayConfirmMessaje(String msj) {
-        
-        return false;
-        
+       int result = JOptionPane.showConfirmDialog(this, msj, "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return result == JOptionPane.YES_OPTION;
     }
 }
