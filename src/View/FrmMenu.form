@@ -26,7 +26,7 @@
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Views/Icons/Miembros.png"/>
+                  <Image iconType="3" name="/View/Icons/Miembros.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Miembros"/>
               </Properties>
