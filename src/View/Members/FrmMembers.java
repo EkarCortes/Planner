@@ -324,11 +324,15 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-      String searchId = JOptionPane.showInputDialog(this, "Ingrese la cédula del miembro a buscar:");
-        
-        if (searchId != null && !searchId.isEmpty()) {
-            controller.read(searchId);
-        }
+      String id = txtId.getText();
+    
+    if (!id.isEmpty()) {
+        Member memberToDelete = new Member(id);
+        controller.delete(memberToDelete);
+        clear();
+    } else {
+        displayErrorMessaje("Ingrese la cédula del miembro a eliminar.");
+    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
