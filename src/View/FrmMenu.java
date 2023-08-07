@@ -4,6 +4,7 @@
  */
 package View;
 
+import Data.Data;
 import View.Members.FrmMembers;
 
 
@@ -15,6 +16,7 @@ public class FrmMenu extends javax.swing.JFrame {
     public FrmMenu() {
         initComponents();
         View.maximize(this);
+        Data.loadMembers();
         //Maximize el formulario utilizando la interface View
         //Cargar datos utilizando clase Data.
     }

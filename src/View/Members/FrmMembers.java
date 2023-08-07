@@ -363,7 +363,14 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
     }//GEN-LAST:event_tblMembersKeyReleased
 
     private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
-    
+        String filtro = txtFiltro.getText();
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (filtro.isEmpty()) {
+            this.controller.readAll(); // Cargar todos los miembros si no se ingresa filtro
+        } else {
+            this.controller.read(filtro); // Buscar y cargar miembros según el filtro
+        }
+    }
     }//GEN-LAST:event_txtFiltroKeyReleased
 
 
@@ -419,8 +426,8 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
        DefaultTableModel tableModel=(DefaultTableModel) tblMembers.getModel();
        tableModel.setNumRows(0);
        for(Member member:regs){
-           Object[] data=member.toArrayObject();
-            tableModel.addRow(data);
+           Object[] Data=member.toArrayObject();
+            tableModel.addRow(Data);
         }
         this.tblMembers.setModel(tableModel);
     }
