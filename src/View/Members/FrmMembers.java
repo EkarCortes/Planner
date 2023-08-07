@@ -8,6 +8,7 @@ import Controler.Controler;
 import Controler.MemberControler;
 import Models.Members.Member;
 import Models.Members.Role;
+import View.Table;
 import View.View;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
@@ -363,14 +364,7 @@ public class FrmMembers extends javax.swing.JInternalFrame implements View<Membe
     }//GEN-LAST:event_tblMembersKeyReleased
 
     private void txtFiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyReleased
-        String filtro = txtFiltro.getText();
-    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-        if (filtro.isEmpty()) {
-            this.controller.readAll(); // Cargar todos los miembros si no se ingresa filtro
-        } else {
-            this.controller.read(filtro); // Buscar y cargar miembros según el filtro
-        }
-    }
+       Table.filter(tblMembers,txtFiltro.getText());
     }//GEN-LAST:event_txtFiltroKeyReleased
 
 
