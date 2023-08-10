@@ -1,15 +1,16 @@
+
 package Models;
+
 public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        System.out.println("Emerson");
+        System.out.println("Ekar Cortes Cascante");
+        System.out.println("Alejandra");
     }
     
-
-        System.out.println("Alejandra");
- }
-
-}
+  }
